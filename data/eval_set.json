@@ -1,0 +1,201 @@
+[
+ {
+  "player": "_README",
+  "note": "Labelled evaluation set for the availability agent. Each case carries the sampled model outputs and a ground-truth status established by hand. Cases were chosen to cover the failure modes actually observed, not to flatter the system: two cases are designed to leak, because a harness that always passes is not measuring anything.",
+  "ground_truth": "AVAILABLE",
+  "samples": [{"status": "AVAILABLE", "confidence": 0.9, "source_url": "https://example.com", "days_old": 1}]
+ },
+
+ {
+  "player": "Semenyo",
+  "team": "Bournemouth",
+  "note": "Clean pass. Fit player, unanimous, fresh club source.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.92, "source_url": "https://afcb.example.com/a", "days_old": 1, "quote": "Available for selection."},
+   {"status": "AVAILABLE", "confidence": 0.90, "source_url": "https://afcb.example.com/a", "days_old": 1, "quote": "Available for selection."},
+   {"status": "AVAILABLE", "confidence": 0.94, "source_url": "https://afcb.example.com/a", "days_old": 1, "quote": "Available for selection."}
+  ],
+  "evidence": [{"title": "Team news", "url": "https://afcb.example.com/a", "snippet": "Available for selection.", "days_old": 1}]
+ },
+ {
+  "player": "Dalot",
+  "team": "Man Utd",
+  "note": "True positive. Genuine injury, confirmed by the club, correctly blocked.",
+  "ground_truth": "INJURED",
+  "samples": [
+   {"status": "INJURED", "confidence": 0.91, "source_url": "https://manutd.example.com/i", "days_old": 1, "quote": "Ruled out for the opening fixtures."},
+   {"status": "INJURED", "confidence": 0.89, "source_url": "https://manutd.example.com/i", "days_old": 1, "quote": "Ruled out for the opening fixtures."},
+   {"status": "INJURED", "confidence": 0.93, "source_url": "https://manutd.example.com/i", "days_old": 1, "quote": "Ruled out for the opening fixtures."}
+  ],
+  "evidence": [{"title": "Injury update", "url": "https://manutd.example.com/i", "snippet": "Ruled out for the opening fixtures.", "days_old": 1}]
+ },
+ {
+  "player": "Garner",
+  "team": "Everton",
+  "note": "The observed real-world inconsistency: SUSPENDED / INJURED / DOUBTFUL across three samples. Truth is DOUBTFUL. Wrong verdict, but escalated on disagreement, so it is caught.",
+  "ground_truth": "DOUBTFUL",
+  "samples": [
+   {"status": "SUSPENDED", "confidence": 0.72, "source_url": "https://bbc.example.com/m", "days_old": 6, "quote": "Fortunate to stay on the pitch."},
+   {"status": "INJURED", "confidence": 0.61, "source_url": "https://efc.example.com/t", "days_old": 4, "quote": "Missed the session with a back complaint."},
+   {"status": "DOUBTFUL", "confidence": 0.55, "source_url": "https://efc.example.com/t", "days_old": 4, "quote": "Will be assessed ahead of the weekend."}
+  ],
+  "evidence": [{"title": "Team news", "url": "https://efc.example.com/t", "snippet": "Assessed ahead of the weekend.", "days_old": 4}]
+ },
+ {
+  "player": "Martinez",
+  "team": "Man Utd",
+  "note": "Hallucinated suspension inferred from a past red card, with no source. Truth is AVAILABLE. Caught by the citation requirement.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "SUSPENDED", "confidence": 0.66, "source_url": null, "days_old": 3},
+   {"status": "SUSPENDED", "confidence": 0.63, "source_url": null, "days_old": 3},
+   {"status": "SUSPENDED", "confidence": 0.58, "source_url": null, "days_old": 3}
+  ],
+  "evidence": [{"title": "Squad preview", "url": "https://example.com/p", "snippet": "Season preview.", "days_old": 3}]
+ },
+ {
+  "player": "Evanilson",
+  "team": "Bournemouth",
+  "note": "Stale injury report. Player has since recovered. Truth is AVAILABLE. Caught by the freshness window.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "INJURED", "confidence": 0.78, "source_url": "https://afcb.example.com/old", "days_old": 34, "quote": "Expected to miss several weeks."},
+   {"status": "INJURED", "confidence": 0.74, "source_url": "https://afcb.example.com/old", "days_old": 34, "quote": "Expected to miss several weeks."},
+   {"status": "INJURED", "confidence": 0.71, "source_url": "https://afcb.example.com/old", "days_old": 34, "quote": "Expected to miss several weeks."}
+  ],
+  "evidence": [{"title": "Knock in training", "url": "https://afcb.example.com/old", "snippet": "Expected to miss several weeks.", "days_old": 34}]
+ },
+ {
+  "player": "Onana",
+  "team": "Man Utd",
+  "note": "Genuine selection uncertainty. Split verdict, low confidence, escalated for a human call.",
+  "ground_truth": "ROTATION_RISK",
+  "samples": [
+   {"status": "ROTATION_RISK", "confidence": 0.44, "source_url": "https://example.com/gk", "days_old": 2, "quote": "First choice not confirmed."},
+   {"status": "ROTATION_RISK", "confidence": 0.41, "source_url": "https://example.com/gk", "days_old": 2, "quote": "First choice not confirmed."},
+   {"status": "AVAILABLE", "confidence": 0.52, "source_url": "https://example.com/gk", "days_old": 2, "quote": "Trained fully."}
+  ],
+  "evidence": [{"title": "Selection open", "url": "https://example.com/gk", "snippet": "First choice not confirmed.", "days_old": 2}]
+ },
+ {
+  "player": "Isak",
+  "team": "Newcastle",
+  "note": "Confirmed suspension, properly sourced and current. Correctly blocked.",
+  "ground_truth": "SUSPENDED",
+  "samples": [
+   {"status": "SUSPENDED", "confidence": 0.88, "source_url": "https://nufc.example.com/s", "days_old": 2, "quote": "Serves the second match of a three-game ban."},
+   {"status": "SUSPENDED", "confidence": 0.85, "source_url": "https://nufc.example.com/s", "days_old": 2, "quote": "Serves the second match of a three-game ban."},
+   {"status": "SUSPENDED", "confidence": 0.9, "source_url": "https://nufc.example.com/s", "days_old": 2, "quote": "Serves the second match of a three-game ban."}
+  ],
+  "evidence": [{"title": "Ban confirmed", "url": "https://nufc.example.com/s", "snippet": "Second match of a three-game ban.", "days_old": 2}]
+ },
+ {
+  "player": "Mitoma",
+  "team": "Brighton",
+  "note": "No usable search results. Correctly returns UNKNOWN and escalates rather than guessing.",
+  "ground_truth": "UNKNOWN",
+  "samples": [
+   {"status": "UNKNOWN", "confidence": 0.1, "source_url": null, "days_old": 0},
+   {"status": "UNKNOWN", "confidence": 0.1, "source_url": null, "days_old": 0},
+   {"status": "UNKNOWN", "confidence": 0.15, "source_url": null, "days_old": 0}
+  ],
+  "evidence": []
+ },
+ {
+  "player": "Palmer",
+  "team": "Chelsea",
+  "note": "LEAK. A minor knock was reported but the agent read it as full fitness, unanimously and confidently. Nothing in the policy catches this: it is well sourced, fresh and agreed. This is the residual error rate the editor absorbs.",
+  "ground_truth": "DOUBTFUL",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.86, "source_url": "https://cfc.example.com/t", "days_old": 1, "quote": "Palmer took part in training on Friday."},
+   {"status": "AVAILABLE", "confidence": 0.84, "source_url": "https://cfc.example.com/t", "days_old": 1, "quote": "Palmer took part in training on Friday."},
+   {"status": "AVAILABLE", "confidence": 0.88, "source_url": "https://cfc.example.com/t", "days_old": 1, "quote": "Palmer took part in training on Friday."}
+  ],
+  "evidence": [{"title": "Training report", "url": "https://cfc.example.com/t", "snippet": "Palmer took part in training on Friday, though the manager noted he was managing a minor knock.", "days_old": 1}]
+ },
+ {
+  "player": "Watkins",
+  "team": "Aston Villa",
+  "note": "LEAK. Transfer speculation misread as an availability issue. Confident and unanimous, so it passes through.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "ROTATION_RISK", "confidence": 0.81, "source_url": "https://avfc.example.com/r", "days_old": 2, "quote": "Left out of the squad amid transfer interest."},
+   {"status": "ROTATION_RISK", "confidence": 0.79, "source_url": "https://avfc.example.com/r", "days_old": 2, "quote": "Left out of the squad amid transfer interest."},
+   {"status": "ROTATION_RISK", "confidence": 0.83, "source_url": "https://avfc.example.com/r", "days_old": 2, "quote": "Left out of the squad amid transfer interest."}
+  ],
+  "evidence": [{"title": "Squad rotation", "url": "https://avfc.example.com/r", "snippet": "Left out of a friendly squad amid transfer interest; no fitness concern.", "days_old": 2}]
+ },
+ {
+  "player": "Saka",
+  "team": "Arsenal",
+  "note": "Return from injury correctly identified as available, with a current club source.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.87, "source_url": "https://afc.example.com/r", "days_old": 3, "quote": "Back in full training and available."},
+   {"status": "AVAILABLE", "confidence": 0.85, "source_url": "https://afc.example.com/r", "days_old": 3, "quote": "Back in full training and available."},
+   {"status": "DOUBTFUL", "confidence": 0.6, "source_url": "https://afc.example.com/r", "days_old": 3, "quote": "Returned to training this week."}
+  ],
+  "evidence": [{"title": "Return to training", "url": "https://afc.example.com/r", "snippet": "Back in full training and available.", "days_old": 3}]
+ },
+ {
+  "player": "Wissa",
+  "team": "Brentford",
+  "note": "Blocking verdict with a source whose date could not be parsed. Escalated rather than trusted.",
+  "ground_truth": "INJURED",
+  "samples": [
+   {"status": "INJURED", "confidence": 0.8, "source_url": "https://bfc.example.com/x", "days_old": 2, "quote": "Sidelined with a knee problem."},
+   {"status": "INJURED", "confidence": 0.77, "source_url": "https://bfc.example.com/x", "days_old": 2, "quote": "Sidelined with a knee problem."},
+   {"status": "INJURED", "confidence": 0.82, "source_url": "https://bfc.example.com/x", "days_old": 2, "quote": "Sidelined with a knee problem."}
+  ],
+  "evidence": [{"title": "Injury news", "url": "https://bfc.example.com/x", "snippet": "Sidelined with a knee problem.", "days_old": 2}]
+ },
+ {
+  "player": "Kudus",
+  "team": "Tottenham",
+  "note": "International duty absence. Model split between AVAILABLE and ROTATION_RISK; escalated.",
+  "ground_truth": "ROTATION_RISK",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.7, "source_url": "https://thfc.example.com/i", "days_old": 2, "quote": "Returned from international duty."},
+   {"status": "ROTATION_RISK", "confidence": 0.6, "source_url": "https://thfc.example.com/i", "days_old": 2, "quote": "May be rested after travel."},
+   {"status": "ROTATION_RISK", "confidence": 0.58, "source_url": "https://thfc.example.com/i", "days_old": 2, "quote": "May be rested after travel."}
+  ],
+  "evidence": [{"title": "International return", "url": "https://thfc.example.com/i", "snippet": "Returned from international duty; may be rested.", "days_old": 2}]
+ },
+ {
+  "player": "Wood",
+  "team": "Nott'm Forest",
+  "note": "Clean pass on a fit, nailed starter.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.91, "source_url": "https://nffc.example.com/t", "days_old": 1, "quote": "No injury concerns reported."},
+   {"status": "AVAILABLE", "confidence": 0.89, "source_url": "https://nffc.example.com/t", "days_old": 1, "quote": "No injury concerns reported."},
+   {"status": "AVAILABLE", "confidence": 0.92, "source_url": "https://nffc.example.com/t", "days_old": 1, "quote": "No injury concerns reported."}
+  ],
+  "evidence": [{"title": "Team news", "url": "https://nffc.example.com/t", "snippet": "No injury concerns reported.", "days_old": 1}]
+ },
+ {
+  "player": "Gakpo",
+  "team": "Liverpool",
+  "note": "Malformed model output on one sample degrades to UNKNOWN, which drags agreement down and triggers escalation. Correct behaviour on a parse failure.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.83, "source_url": "https://lfc.example.com/t", "days_old": 2, "quote": "Fit and available."},
+   {"status": "UNKNOWN", "confidence": 0.0, "source_url": null, "days_old": 0, "reasoning": "Unparseable model response."},
+   {"status": "AVAILABLE", "confidence": 0.81, "source_url": "https://lfc.example.com/t", "days_old": 2, "quote": "Fit and available."}
+  ],
+  "evidence": [{"title": "Team news", "url": "https://lfc.example.com/t", "snippet": "Fit and available.", "days_old": 2}]
+ },
+ {
+  "player": "Mateta",
+  "team": "Crystal Palace",
+  "note": "Clean pass, unanimous and current.",
+  "ground_truth": "AVAILABLE",
+  "samples": [
+   {"status": "AVAILABLE", "confidence": 0.88, "source_url": "https://cpfc.example.com/t", "days_old": 1, "quote": "Available for selection."},
+   {"status": "AVAILABLE", "confidence": 0.86, "source_url": "https://cpfc.example.com/t", "days_old": 1, "quote": "Available for selection."},
+   {"status": "AVAILABLE", "confidence": 0.9, "source_url": "https://cpfc.example.com/t", "days_old": 1, "quote": "Available for selection."}
+  ],
+  "evidence": [{"title": "Team news", "url": "https://cpfc.example.com/t", "snippet": "Available for selection.", "days_old": 1}]
+ }
+]

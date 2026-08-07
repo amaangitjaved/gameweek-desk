@@ -1,0 +1,247 @@
+{
+ "_comment": [
+  "Recorded agent behaviour, used when GROQ_API_KEY / SERPAPI_KEY are absent.",
+  "The code path is identical to live operation: the same aggregate() function",
+  "consumes these samples and applies the same escalation policy. Only the two",
+  "external calls are replayed.",
+  "",
+  "The Garner record reproduces a real inconsistency observed in the original",
+  "n8n workflow, where the same player and the same input returned SUSPENDED on",
+  "one run and INJURED on the next, sixty seconds apart. It is included so the",
+  "disagreement-escalation path is exercised in the demo rather than asserted."
+ ],
+
+ "Garner": {
+  "_case": "Unstable verdict. Three samples, three different statuses. Escalates on disagreement.",
+  "samples": [
+   {
+    "status": "SUSPENDED",
+    "confidence": 0.72,
+    "source_url": "https://www.bbc.co.uk/sport/football/example-match-report",
+    "days_old": 6,
+    "quote": "Garner was fortunate to stay on the pitch after a reckless challenge that many felt warranted a red card.",
+    "reasoning": "Match report describes conduct the model read as grounds for a ban."
+   },
+   {
+    "status": "INJURED",
+    "confidence": 0.61,
+    "source_url": "https://www.everton-news.example.com/team-news",
+    "days_old": 4,
+    "quote": "Garner missed the session on Thursday with a back complaint.",
+    "reasoning": "Training absence reported with a back complaint."
+   },
+   {
+    "status": "DOUBTFUL",
+    "confidence": 0.55,
+    "source_url": "https://www.everton-news.example.com/team-news",
+    "days_old": 4,
+    "quote": "Garner will be assessed ahead of the weekend.",
+    "reasoning": "Assessment pending; status not established either way."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Everton team news: Garner assessed ahead of weekend",
+    "url": "https://www.everton-news.example.com/team-news",
+    "snippet": "James Garner missed Thursday's session with a back complaint and will be assessed ahead of the weekend fixture.",
+    "days_old": 4
+   },
+   {
+    "title": "Match report: reckless challenge goes unpunished",
+    "url": "https://www.bbc.co.uk/sport/football/example-match-report",
+    "snippet": "Garner was fortunate to stay on the pitch after a reckless challenge that many felt warranted a red card.",
+    "days_old": 6
+   }
+  ]
+ },
+
+ "Dalot": {
+  "_case": "Genuine blocking flag. Unanimous, cited, fresh. Feeds back into the optimiser.",
+  "samples": [
+   {
+    "status": "INJURED",
+    "confidence": 0.91,
+    "source_url": "https://www.manutd.com/en/news/example-injury-update",
+    "days_old": 1,
+    "quote": "Dalot will be unavailable for the opening fixtures after sustaining a hamstring injury in pre-season.",
+    "reasoning": "Club source states he is unavailable for the opening fixtures."
+   },
+   {
+    "status": "INJURED",
+    "confidence": 0.89,
+    "source_url": "https://www.manutd.com/en/news/example-injury-update",
+    "days_old": 1,
+    "quote": "Dalot will be unavailable for the opening fixtures after sustaining a hamstring injury in pre-season.",
+    "reasoning": "Confirmed hamstring injury, ruled out."
+   },
+   {
+    "status": "INJURED",
+    "confidence": 0.93,
+    "source_url": "https://www.manutd.com/en/news/example-injury-update",
+    "days_old": 1,
+    "quote": "Dalot will be unavailable for the opening fixtures after sustaining a hamstring injury in pre-season.",
+    "reasoning": "Club confirms unavailability."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Injury update: Dalot ruled out for opening fixtures",
+    "url": "https://www.manutd.com/en/news/example-injury-update",
+    "snippet": "Diogo Dalot will be unavailable for the opening fixtures after sustaining a hamstring injury in pre-season training.",
+    "days_old": 1
+   }
+  ]
+ },
+
+ "Evanilson": {
+  "_case": "Stale evidence. Unanimous blocking verdict, but the only source is well outside the freshness window.",
+  "samples": [
+   {
+    "status": "INJURED",
+    "confidence": 0.78,
+    "source_url": "https://www.afcb-news.example.com/archive/injury",
+    "days_old": 34,
+    "quote": "Evanilson picked up a knock and is expected to miss several weeks.",
+    "reasoning": "Reported injury with an expected multi-week absence."
+   },
+   {
+    "status": "INJURED",
+    "confidence": 0.74,
+    "source_url": "https://www.afcb-news.example.com/archive/injury",
+    "days_old": 34,
+    "quote": "Evanilson picked up a knock and is expected to miss several weeks.",
+    "reasoning": "Same archived report."
+   },
+   {
+    "status": "INJURED",
+    "confidence": 0.71,
+    "source_url": "https://www.afcb-news.example.com/archive/injury",
+    "days_old": 34,
+    "quote": "Evanilson picked up a knock and is expected to miss several weeks.",
+    "reasoning": "Same archived report."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Evanilson picks up knock in training",
+    "url": "https://www.afcb-news.example.com/archive/injury",
+    "snippet": "Evanilson picked up a knock and is expected to miss several weeks.",
+    "days_old": 34
+   }
+  ]
+ },
+
+ "Martinez": {
+  "_case": "Uncited blocking claim. The model asserts a suspension with no source, which is inadmissible.",
+  "samples": [
+   {
+    "status": "SUSPENDED",
+    "confidence": 0.66,
+    "source_url": null,
+    "days_old": 3,
+    "quote": null,
+    "reasoning": "Recalled a red card from a previous fixture; no supporting source in results."
+   },
+   {
+    "status": "SUSPENDED",
+    "confidence": 0.63,
+    "source_url": null,
+    "days_old": 3,
+    "quote": null,
+    "reasoning": "Same recollection, no source."
+   },
+   {
+    "status": "SUSPENDED",
+    "confidence": 0.58,
+    "source_url": null,
+    "days_old": 3,
+    "quote": null,
+    "reasoning": "Same recollection, no source."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Man Utd squad preview",
+    "url": "https://www.example-preview.com/man-utd",
+    "snippet": "A look ahead to the new campaign for Manchester United.",
+    "days_old": 3
+   }
+  ]
+ },
+
+ "Onana": {
+  "_case": "Rotation risk with low confidence. Not blocking, but flagged for a human to weigh.",
+  "samples": [
+   {
+    "status": "ROTATION_RISK",
+    "confidence": 0.44,
+    "source_url": "https://www.example-preview.com/man-utd-goalkeeper",
+    "days_old": 2,
+    "quote": "The manager has declined to confirm his first-choice goalkeeper for the opening fixture.",
+    "reasoning": "Starting role publicly unresolved."
+   },
+   {
+    "status": "ROTATION_RISK",
+    "confidence": 0.41,
+    "source_url": "https://www.example-preview.com/man-utd-goalkeeper",
+    "days_old": 2,
+    "quote": "The manager has declined to confirm his first-choice goalkeeper for the opening fixture.",
+    "reasoning": "Selection uncertainty reported."
+   },
+   {
+    "status": "AVAILABLE",
+    "confidence": 0.52,
+    "source_url": "https://www.example-preview.com/man-utd-goalkeeper",
+    "days_old": 2,
+    "quote": "Onana trained fully this week.",
+    "reasoning": "Fit and training, no fitness concern."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Goalkeeper selection still open at Man Utd",
+    "url": "https://www.example-preview.com/man-utd-goalkeeper",
+    "snippet": "The manager has declined to confirm his first-choice goalkeeper for the opening fixture. Onana trained fully this week.",
+    "days_old": 2
+   }
+  ]
+ },
+
+ "Semenyo": {
+  "_case": "Clean pass. Unanimous, cited, fresh, high confidence. No human attention required.",
+  "samples": [
+   {
+    "status": "AVAILABLE",
+    "confidence": 0.92,
+    "source_url": "https://www.afcb.co.uk/news/example-team-news",
+    "days_old": 1,
+    "quote": "Semenyo came through pre-season without issue and is available for selection.",
+    "reasoning": "Club confirms availability."
+   },
+   {
+    "status": "AVAILABLE",
+    "confidence": 0.9,
+    "source_url": "https://www.afcb.co.uk/news/example-team-news",
+    "days_old": 1,
+    "quote": "Semenyo came through pre-season without issue and is available for selection.",
+    "reasoning": "Club confirms availability."
+   },
+   {
+    "status": "AVAILABLE",
+    "confidence": 0.94,
+    "source_url": "https://www.afcb.co.uk/news/example-team-news",
+    "days_old": 1,
+    "quote": "Semenyo came through pre-season without issue and is available for selection.",
+    "reasoning": "Club confirms availability."
+   }
+  ],
+  "evidence": [
+   {
+    "title": "Bournemouth team news ahead of the opener",
+    "url": "https://www.afcb.co.uk/news/example-team-news",
+    "snippet": "Antoine Semenyo came through pre-season without issue and is available for selection.",
+    "days_old": 1
+   }
+  ]
+ }
+}
