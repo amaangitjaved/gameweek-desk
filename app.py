@@ -143,7 +143,7 @@ st.divider()
 
 left, right = st.columns([1, 3])
 with left:
-    go = st.button("Run gameweek analysis", type="primary", use_container_width=True)
+    go = st.button("Run gameweek analysis", type="primary", width="stretch")
 with right:
     st.caption(
         "Ranks the player pool, proposes the best legal transfer bundle, researches "
@@ -175,7 +175,7 @@ if run is None:
             "web_name": "Player", "team_name": "Club", "position": "Pos",
             "price": "£m", "xp_horizon": f"xP ({horizon} GW)", "start_prob": "Expected minutes",
         }).sort_values("Pos"),
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
         column_config={
             "Expected minutes": st.column_config.ProgressColumn(
                 "Expected minutes", min_value=0, max_value=100, format="%.0f%%"),
@@ -356,7 +356,7 @@ else:
 
             b1, b2, b3, _ = st.columns([1, 1, 1, 3])
             if b1.button("Publish", key=f"pub-{key}", type="primary",
-                         disabled=bool(decided), use_container_width=True):
+                         disabled=bool(decided), width="stretch"):
                 entry = store.record(
                     action="EDITED_AND_PUBLISHED" if changed else "PUBLISHED",
                     reviewer=reviewer,
@@ -376,11 +376,11 @@ else:
                 st.rerun()
 
             if b2.button("Reject", key=f"rej-{key}", disabled=bool(decided),
-                         use_container_width=True):
+                         width="stretch"):
                 st.session_state.setdefault("pending_reject", set()).add(key)
 
             if b3.button("Escalate", key=f"esc-{key}", disabled=bool(decided),
-                         use_container_width=True):
+                         width="stretch"):
                 entry = store.record(
                     action="ESCALATED", reviewer=reviewer,
                     summary=f"{t.out_name} → {t.in_name}",

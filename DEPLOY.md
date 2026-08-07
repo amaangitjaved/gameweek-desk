@@ -15,14 +15,24 @@ Run analysis → check the escalations appear → publish one → check the Audi
 
 ## 2. Push to GitHub (3 min)
 
+First create the repo: [github.com/new](https://github.com/new) → name `gameweek-desk` →
+**public** → do **not** tick "Add a README" (one already exists here) → Create.
+
+Then, replacing `YOUR_USERNAME` with your actual GitHub handle:
+
 ```powershell
 git init
 git add .
 git commit -m "Gameweek Desk: availability verification and editorial review console"
 git branch -M main
-git remote add origin https://github.com/<you>/gameweek-desk.git
+git remote add origin https://github.com/YOUR_USERNAME/gameweek-desk.git
 git push -u origin main
 ```
+
+A browser window opens for GitHub auth on the first push. If you already added a remote
+with the wrong URL, run `git remote remove origin` before re-adding it.
+
+`warning: LF will be replaced by CRLF` on Windows is cosmetic — ignore it.
 
 `.gitignore` already excludes `secrets.toml`, the audit log, and the old virtualenvs.
 

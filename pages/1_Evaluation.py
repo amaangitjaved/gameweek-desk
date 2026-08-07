@@ -61,7 +61,7 @@ st.dataframe(
         "outcome": "Outcome", "reasons": "Why escalated", "note": "Case",
     })[["Player", "Case", "Truth", "Agent said", "Conf.", "Agreement",
         "Escalated", "Outcome", "Why escalated"]],
-    use_container_width=True, hide_index=True,
+    width="stretch", hide_index=True,
     column_config={
         "Conf.": st.column_config.NumberColumn(format="%.2f"),
         "Agreement": st.column_config.NumberColumn(format="%.2f"),
@@ -105,7 +105,7 @@ st.dataframe(
         "leaked": "Leaked", "over_escalated": "Over-escalated",
         "escalation_rate": "Escalation rate", "human_minutes": "Human minutes",
     }),
-    use_container_width=True, hide_index=True,
+    width="stretch", hide_index=True,
 )
 st.line_chart(sweep.set_index("confidence_threshold")[["leaked", "over_escalated"]])
 st.caption(

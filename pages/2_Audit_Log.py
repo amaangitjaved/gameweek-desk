@@ -61,7 +61,7 @@ flat = [{
     "Fingerprint": r.get("fingerprint", ""),
 } for r in rows]
 
-st.dataframe(pd.DataFrame(flat), use_container_width=True, hide_index=True)
+st.dataframe(pd.DataFrame(flat), width="stretch", hide_index=True)
 
 st.divider()
 st.subheader("Detail")
